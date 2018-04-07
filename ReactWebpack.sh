@@ -1,7 +1,7 @@
 #!/bin/zsh
 mkdir src
 mkdir src/client
-touch src/client.index.js
+touch src/client/index.js
 npm init -y
 yarn add --dev webpack webpack-cli babel babel-preset-env babel-loader style-loader css-loader html-webpack-plugin babel-preset-react
 yarn add react react-dom
