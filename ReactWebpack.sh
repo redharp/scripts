@@ -1,9 +1,10 @@
 #!/bin/zsh
 mkdir src
 mkdir src/client
-touch src/client/index.js
+touch src/index.js
+touch src/index.html
 npm init -y
-yarn add --dev webpack webpack-cli babel babel-preset-env babel-loader style-loader css-loader html-webpack-plugin babel-preset-react
+yarn add --dev webpack webpack-cli babel-preset-env babel-preset-es2015 babel-core babel-loader style-loader css-loader html-webpack-plugin babel-preset-react
 yarn add react react-dom
 
 BABEL=$(cat <<-END
