@@ -7,7 +7,7 @@
 # <meta charset="UTF-8">
 # </head>
 # <body>
-# <div id='app'></div>
+# 
 # </body>
 # </html>
 mkdir src
@@ -28,7 +28,7 @@ HTML=$(cat <<-END
   <title>Document</title>
 </head>
 <body>
-  
+  <div id='app'></div>
 </body>
 </html>
 END
