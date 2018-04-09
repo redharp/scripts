@@ -1,49 +1,66 @@
 #!/bin/zsh
+# inside src/index.html add:
+
+# <!DOCTYPE html>
+# <html lang="en">
+# <head>
+# <meta charset="UTF-8">
+# </head>
+# <body>
+# <div id='app'></div>
+# </body>
+# </html>
 mkdir src
 mkdir src/client
-touch src/index.jsx
 touch src/index.html
-npm init -y
-yarn add --dev webpack webpack-cli babel-preset-env babel-preset-es2015 babel-core babel-loader style-loader css-loader html-webpack-plugin babel-preset-react
+touch src/App.js
+yarn init -y
+yarn add --dev webpack webpack-cli html-loader babel-preset-env babel-plugin-transform-class-properties babel-core babel-loader style-loader css-loader html-webpack-plugin babel-preset-react babel-polyfill 
 yarn add react react-dom
 
 BABEL=$(cat <<-END
 {
-  "presets": ["env", "react"]
+  "presets": ["env", "react"],
+  "plugins": ["transform-async-to-generator", "transform-class-properties"]
 }
 END
 )
 
 WEBPACK=$(cat <<-END
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-
-const htmlWebpackPlugin = new HtmlWebPackPlugin({
-  template: "./src/index.html",
-  filename: "./index.html"
-});
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  entry: ['babel-polyfill', './src/App.js'],
   module: {
     rules: [
       {
-        test: /\.jsx$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
+          loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+            options: { minimize: true }
+          }
+        ]
       },
       {
         test: /\.css$/,
         use: [
           {
-            loader: "style-loader"
+            loader: 'style-loader'
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               modules: true,
               importLoaders: 1,
-              localIdentName: "[name]_[local]_[hash:base64]",
+              localIdentName: '[name]_[local]_[hash:base64]',
               sourceMap: true,
               minimize: true
             }
@@ -52,10 +69,12 @@ module.exports = {
       }
     ]
   },
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
-  plugins: [htmlWebpackPlugin]
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: './src/index.html',
+      filename: './index.html'
+    })
+  ]
 };
 END
 )
