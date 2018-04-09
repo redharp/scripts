@@ -12,11 +12,27 @@
 # </html>
 mkdir src
 mkdir src/client
-touch src/index.html
 touch src/App.js
 yarn init -y
 yarn add --dev webpack webpack-cli html-loader babel-preset-env babel-plugin-transform-class-properties babel-core babel-loader style-loader css-loader html-webpack-plugin babel-preset-react babel-polyfill 
 yarn add react react-dom
+
+
+HTML=$(cat <<-END
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+END
+)
 
 BABEL=$(cat <<-END
 {
@@ -80,3 +96,4 @@ END
 )
 echo "$WEBPACK">>webpack.config.js
 echo "$BABEL">>.babelrc
+echo "$HTML">>src/index.html
