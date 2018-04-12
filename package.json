@@ -1,0 +1,19 @@
+{
+  "name": "red-harp-script",
+  "version": "0.0.1",
+  "description": "NPM package to create react boilerplate with webpack 4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frogz1/scripts.git"
+  },
+  "author": "Trevor Old",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Frogz1/scripts/issues"
+  },
+  "homepage": "https://github.com/Frogz1/scripts#readme"
+}
