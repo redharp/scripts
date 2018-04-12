@@ -1,5 +1,5 @@
 const fs = require('fs');
-const yarnAssist = require('./packageInstaller');
+const yarn = require('./packageInstaller');
 const devPayloads = require('./devPayloads');
 
 const dirs = ['src', 'src/client', 'src/server'];
@@ -8,8 +8,10 @@ const files = [['src/client/App.js', ''],
                ['.babelrc', devPayloads.babel],
                ['src/index.html', devPayloads.html],
                ['src/server/index.js', '']];
-let done = false;
-let complete = false;
+let dirsCreated = false;
+let filesWritten = false;
+let packagesInstalled = false;
+
 const createDirectories = () => {
 
   for (let i = 0; i < dirs.length; i+= 1) {
@@ -21,7 +23,7 @@ const createDirectories = () => {
       }
     });
   };
-  done = true;
+  dirsCreated = true;
 };
 
 const writeFiles = () => {
@@ -34,48 +36,31 @@ const writeFiles = () => {
       }
     });
   };
-  complete = true;
+  filesWritten = true;
 };
 
 
-// fs.mkdir('src', (err, result) => {
-//   if (err) {
-//     console.log(`Unknown fs error when trying to create src ${err}`);
-//   } else {
-//     fs.mkdir('src/client', (err, result) => {
-//       if (err) {
-//         console.log(`Unknown fs error when trying to create src ${err}`);
-//       } else {
-//         console.log('Done creating src/client')
-//         fs.writeFile('src/client/App.js', devPayloads, (err, result) => {
-//           if (err) {
-//             console.log('Unknown fs error trying to create src/client/App.js');
-//           } else {
-//             console.log('Done creating App.js in src/client')
-//           }
-//         });
-//       }
-//     });     
-//   }
-// });
-
-
 const installPackages = async () => {
-  await yarnAssist(devPayloads.devPackages);
-  await yarnAssist(devPayloads.reactPackages);
+  await yarn.yarnBall([devPayloads.devPackages, devPayloads.reactPackages]);
 }
 
 const createBoilerPlate = async () => {
     createDirectories();
-  setInterval(() => {
-    if (done && !complete) {
+  setTimeout(() => {
+    if (dirsCreated && !filesWritten) {
       writeFiles();
-    } else if (done && complete) {
+    } else if (dirsCreated && filesWritten) {
       console.log(`🧐 Looks like I'm done here 👀 ✌️😎 \n Starting to install packages`);
-      await installPackages();
-      process.exit();
     }
-  }, 250);
+  }, 2500);
 };
 
-createBoilerPlate();
+
+
+
+exports.redHarp = async () => {
+  createBoilerPlate();
+  await installPackages()
+  console.log(`done, ending process`);
+  process.exit();
+}
