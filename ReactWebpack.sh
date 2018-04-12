@@ -1,15 +1,5 @@
 #!/bin/zsh
-# inside src/index.html add:
-
-# <!DOCTYPE html>
-# <html lang="en">
-# <head>
-# <meta charset="UTF-8">
-# </head>
-# <body>
-# 
-# </body>
-# </html>
+###
 mkdir src
 mkdir src/client
 touch src/App.js
