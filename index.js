@@ -12,10 +12,10 @@ let dirsCreated = false;
 let filesWritten = false;
 let packagesInstalled = false;
 
-const createDirectories = () => {
+const createDirectories = async () => {
 
   for (let i = 0; i < dirs.length; i+= 1) {
-    fs.mkdir(dirs[i], (err, result) => {
+   await fs.mkdir(dirs[i], (err, result) => {
       if (err) {
         console.log(`Error creating ${dirs[i]} caught ${err}`);
       } else {
@@ -41,16 +41,20 @@ const writeFiles = () => {
 
 
 const installPackages = async () => {
-  await yarn.yarnBall([devPayloads.devPackages, devPayloads.reactPackages]);
+   await yarn.yarnBall([devPayloads.devPackages, devPayloads.reactPackages]);
+
+   packagesInstalled = true;
+
 }
 
 const createBoilerPlate = async () => {
-    createDirectories();
-  setTimeout(() => {
-    if (dirsCreated && !filesWritten) {
+  await createDirectories();
+  setInterval(() => {
+    if (dirsCreated && !filesWritten && packagesInstalled) {
       writeFiles();
     } else if (dirsCreated && filesWritten) {
       console.log(`🧐 Looks like I'm done here 👀 ✌️😎 \n Starting to install packages`);
+      
     }
   }, 2500);
 };
@@ -59,8 +63,12 @@ const createBoilerPlate = async () => {
 
 
 exports.redHarp = async () => {
-  createBoilerPlate();
   await installPackages()
-  console.log(`done, ending process`);
-  process.exit();
+  createBoilerPlate();
+  setInterval(() => {
+    if (dirsCreated && filesWritten && packagesInstalled) {
+      process.exit();
+    }
+  }, 500);
+
 }

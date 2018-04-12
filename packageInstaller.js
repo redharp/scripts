@@ -15,10 +15,10 @@ async function yarnAdd(packages) {
 }
 
 async function yarnBall(packages) {
-  await init()
-  for (const package of packages) {
-    yarnAdd(package);
+  for (let i = 0; i < packages.length; i += 1) {
+    await yarnAdd(packages[i])
   }
+
 }
 
 module.exports ={
