@@ -1,4 +1,5 @@
 
 node_modules
-
+.tgz
 .vscode
+red-harp-script-0.0.1.tgz

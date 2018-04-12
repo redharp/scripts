@@ -1,5 +1,5 @@
 {
-  "name": "red-harp-script",
+  "name": "red-harp",
   "version": "0.0.1",
   "description": "NPM package to create react boilerplate with webpack 4",
   "main": "index.js",
