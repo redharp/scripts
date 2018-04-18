@@ -36,30 +36,30 @@ WEBPACK=$(cat <<-END
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: ['babel-polyfill', './src/App.js'],
+  entry: ['babel-polyfill', './src/client/App.js'],
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.html$/,
         use: [
           {
             loader: 'html-loader',
-            options: { minimize: true }
-          }
-        ]
+            options: { minimize: true },
+          },
+        ],
       },
       {
         test: /\.css$/,
         use: [
           {
-            loader: 'style-loader'
+            loader: 'style-loader',
           },
           {
             loader: 'css-loader',
@@ -68,20 +68,24 @@ module.exports = {
               importLoaders: 1,
               localIdentName: '[name]_[local]_[hash:base64]',
               sourceMap: true,
-              minimize: true
-            }
-          }
-        ]
-      }
-    ]
+              minimize: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',
-      filename: './index.html'
-    })
-  ]
+      filename: './index.html',
+    }),
+  ],
 };
+
 END
 )
 echo "$WEBPACK">>webpack.config.js
